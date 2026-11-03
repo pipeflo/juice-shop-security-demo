@@ -169,6 +169,12 @@ void collectDurationPromise('cleanupFtpFolder', cleanupFtpFolder)()
 void collectDurationPromise('validateConfig', validateConfig)({})
 
 function configureApp (app: ReturnType<typeof express>, seq: typeof sequelize) {
+  try {
+    fs.writeFileSync(path.resolve('encryptionkeys/jwt.pub'), security.publicKey)
+  } catch (err) {
+    logger.warn('Error writing JWT public key: ' + utils.getErrorMessage(err))
+  }
+
   /* Locals */
   app.locals.captchaId = 0
   app.locals.captchaReqId = 1
