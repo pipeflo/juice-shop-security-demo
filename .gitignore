@@ -71,3 +71,6 @@ config/*.yml
 # Misc
 .playwright-mcp/
 cypress/screenshots/
+
+# Generated at startup from the runtime JWT key
+encryptionkeys/jwt.pub

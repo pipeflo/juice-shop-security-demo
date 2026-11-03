@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress'
+import jws from 'jws'
 import * as security from './lib/insecurity'
 import config from 'config'
 import type { Memory as MemoryConfig, Product as ProductConfig } from './lib/config.schema'
@@ -22,6 +23,9 @@ export default defineConfig({
       on('task', {
         GenerateCoupon (discount: number) {
           return security.generateCoupon(discount)
+        },
+        ForgeHs256Token ({ payload, secret }: { payload: object, secret: string }) {
+          return jws.sign({ header: { alg: 'HS256', typ: 'JWT' }, payload, secret })
         },
         GetBlueprint () {
           for (const product of config.get<ProductConfig[]>('products')) {
